@@ -1,0 +1,13 @@
+package com.chatapp.backend.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class JWTResponseDTO {
+    private String token;
+    private String email;
+}
