@@ -8,8 +8,7 @@ class BackendApplicationTests {
 
     @Test
     // Test to check if the Spring application context loads successfully
-    void contextLoads() {//Noncompliant - method is empty
+    void contextLoads() { // Noncompliant - method is empty
         // This test will pass if the application context loads without any issues
     }
-
 }
