@@ -34,7 +34,7 @@ public class UserController {
     // login
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<JWTResponseDTO>> login(@RequestBody LoginRequestDTO dto) {
-        try {
+
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
 
@@ -46,8 +46,6 @@ public class UserController {
             response.setToken(token);
             response.setEmail(userDetails.getUsername());
             return ResponseUtil.success(response,"Login Successful",HttpStatus.OK);
-        } catch (AuthenticationException e) {
-            throw new UnauthorizedException("Invalid email or password , try again !");
-        }
+
     }
 }
