@@ -3,6 +3,8 @@ package com.chatapp.backend.service;
 import com.chatapp.backend.dto.UserDTO;
 import com.chatapp.backend.dto.UserRequestDTO;
 import com.chatapp.backend.entity.Users;
+import com.chatapp.backend.exception.BadRequestException;
+import com.chatapp.backend.exception.ResourceNotFoundException;
 import com.chatapp.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +18,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO registerUser(UserRequestDTO userRequestDTO) {
+        if (Boolean.TRUE.equals(userRepository.existsByEmail(userRequestDTO.getEmail()))) {
+            throw new BadRequestException("Email already exists "+userRequestDTO.getEmail());
+        }
+
         Users users =
                 Users.builder()
                         .name(userRequestDTO.getName())
@@ -42,7 +48,7 @@ public class UserServiceImpl implements UserService {
                 userRepository
                         .findByEmail(email)
                         .orElseThrow(
-                                () -> new RuntimeException("User not found with email: " + email));
+                                () -> new ResourceNotFoundException("User not found with email: " + email));
         return mapToDTO(user);
     }
 }
