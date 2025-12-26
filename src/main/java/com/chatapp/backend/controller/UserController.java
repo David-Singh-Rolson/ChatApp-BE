@@ -1,7 +1,6 @@
 package com.chatapp.backend.controller;
 
 import com.chatapp.backend.dto.*;
-import com.chatapp.backend.exception.UnauthorizedException;
 import com.chatapp.backend.security.JwtUtil;
 import com.chatapp.backend.service.UserService;
 import com.chatapp.backend.utils.ResponseUtil;
@@ -9,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
