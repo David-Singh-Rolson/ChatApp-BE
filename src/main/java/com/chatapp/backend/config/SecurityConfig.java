@@ -1,5 +1,6 @@
 package com.chatapp.backend.config;
 
+import com.chatapp.backend.security.JwtAuthenticationEntryPoint;
 import com.chatapp.backend.security.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,29 +14,32 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
+
 public class SecurityConfig {
 
-    private final JwtFilter jwtFilter;
+        private final JwtFilter jwtFilter;
+        private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(
-                        auth ->
-                                auth.requestMatchers("/auth/**")
-                                        .permitAll()
-                                        .anyRequest()
-                                        .authenticated())
-                .sessionManagement(
-                        sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+                http.csrf(csrf -> csrf.disable())
+                                .authorizeHttpRequests(
+                                                auth -> auth.requestMatchers("/auth/**")
+                                                                .permitAll()
+                                                                .anyRequest()
+                                                                .authenticated())
+                                .exceptionHandling(exception -> exception
+                                                .authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                                .sessionManagement(
+                                                sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+                return http.build();
+        }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
-            throws Exception {
-        return config.getAuthenticationManager();
-    }
+        @Bean
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+                        throws Exception {
+                return config.getAuthenticationManager();
+        }
 }
