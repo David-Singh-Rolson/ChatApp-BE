@@ -47,7 +47,7 @@ public class UserController {
             response.setEmail(userDetails.getUsername());
             return ResponseUtil.success(response,"Login Successful",HttpStatus.OK);
         } catch (AuthenticationException e) {
-            throw new UnauthorizedException("Invalid email or password");
+            throw new UnauthorizedException("Invalid email or password , try again !");
         }
     }
 }
